@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: Social-Network
+  datasource:
+    password: root
+    username: root
+    url: jdbc:postgresql://localhost:5432/postgres
+  flyway:
+    user: "${spring.datasource.username}"
+    password: "${spring.datasource.password}"
+    url: "${spring.datasource.url}"
+    baseline-version: 1
+    baseline-on-migrate: on
+  jpa:
+    generate-ddl: on
+    hibernate:
+      ddl-auto: create
