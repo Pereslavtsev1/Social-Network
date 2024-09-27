@@ -12,6 +12,5 @@ spring:
     baseline-version: 1
     baseline-on-migrate: on
   jpa:
-    generate-ddl: on
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
