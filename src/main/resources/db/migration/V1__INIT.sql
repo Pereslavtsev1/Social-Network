@@ -20,7 +20,7 @@ CREATE TABLE users
     date_of_birth DATE
 );
 
-CREATE TABLE users_roles
+CREATE TABLE users_authorities
 (
     role_id  BIGSERIAL NOT NULL REFERENCES roles(role_id) ON DELETE CASCADE ,
     user_id BIGSERIAL  NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ,
