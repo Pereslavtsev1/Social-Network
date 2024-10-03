@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ApplicationUser {
     @Id
@@ -27,7 +27,9 @@ public class ApplicationUser {
     @Column(unique = true)
     private String username;
     private Date dateOfBirth;
-
+    @Column(nullable = false)
+    private Boolean enabled;
+    private Long verificationCode;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             joinColumns = @JoinColumn(name = "user_id"),
@@ -35,7 +37,4 @@ public class ApplicationUser {
     )
     private Set<Role> authorities;
 
-    public ApplicationUser() {
-        authorities = new HashSet<>();
-    }
 }
