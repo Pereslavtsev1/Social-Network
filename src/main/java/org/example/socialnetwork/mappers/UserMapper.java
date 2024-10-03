@@ -1,5 +1,6 @@
 package org.example.socialnetwork.mappers;
 
+import org.example.socialnetwork.dtos.ApplicationUserResponse;
 import org.example.socialnetwork.dtos.RegistrationRequest;
 import org.example.socialnetwork.models.ApplicationUser;
 import org.springframework.stereotype.Component;
@@ -17,5 +18,9 @@ public class UserMapper {
                 .email(registrationRequest.email())
                 .authorities(new HashSet<>())
                 .build();
+    }
+
+    public ApplicationUserResponse toApplicationUserResponse(ApplicationUser user) {
+        return ApplicationUserResponse.builder().build();
     }
 }
