@@ -1,19 +1,17 @@
 package org.example.socialnetwork.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class ApplicationUser {
     @Id
@@ -35,6 +33,9 @@ public class ApplicationUser {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<Role> authorities;
 
+    public ApplicationUser() {
+        authorities = new HashSet<>();
+    }
 }
