@@ -1,6 +1,5 @@
 package org.example.socialnetwork.services;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.socialnetwork.dtos.ApplicationUserResponse;
 import org.example.socialnetwork.dtos.RegistrationRequest;
