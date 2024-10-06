@@ -27,7 +27,6 @@ public class ApplicationUser {
     @Column(unique = true)
     private String username;
     private Date dateOfBirth;
-    @Column(nullable = false)
     private Boolean enabled;
     private Long verificationCode;
     @ManyToMany(fetch = FetchType.EAGER)

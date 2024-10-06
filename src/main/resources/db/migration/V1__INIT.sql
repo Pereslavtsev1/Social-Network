@@ -18,7 +18,7 @@ CREATE TABLE users
     password          VARCHAR(255),
     username          VARCHAR(255) UNIQUE,
     verification_code BIGINT,
-    enabled           BOOLEAN NOT NULL,
+    enabled           BOOLEAN,
     date_of_birth     DATE
 );
 
