@@ -6,6 +6,7 @@ import org.example.socialnetwork.dtos.RegistrationRequest;
 import org.example.socialnetwork.dtos.UpdatePhoneRequest;
 import org.example.socialnetwork.dtos.UserNameRequest;
 import org.example.socialnetwork.exceptions.EmailAlreadyExistException;
+import org.example.socialnetwork.exceptions.EmailFailedToSendException;
 import org.example.socialnetwork.exceptions.UserNotFoundException;
 import org.example.socialnetwork.mappers.UserMapper;
 import org.example.socialnetwork.models.ApplicationUser;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
+    private final MailService mailService;
 
 
     public ApplicationUserResponse registerUser(RegistrationRequest userRequest) {
@@ -64,7 +66,13 @@ public class UserService {
     public void sentVerificationCode(UserNameRequest request) {
         ApplicationUser applicationUser = userRepository.findByUsername(request.username()).orElseThrow(UserNotFoundException::new);
         applicationUser.setVerificationCode(generateVerificationCode());
-        userRepository.save(applicationUser);
+        try {
+            mailService.createEmail(applicationUser.getEmail(), "Your verification code", "The your verification code: " + applicationUser.getVerificationCode());
+            userRepository.save(applicationUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EmailFailedToSendException();
+        }
     }
 
     private Long generateVerificationCode() {
