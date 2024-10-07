@@ -14,4 +14,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-
+  config:
+    import: optional:secret.yml
+mail:
+  email:
+    sender: "${secret.email}"
