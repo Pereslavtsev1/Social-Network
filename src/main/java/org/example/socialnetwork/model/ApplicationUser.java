@@ -1,10 +1,9 @@
-package org.example.socialnetwork.models;
+package org.example.socialnetwork.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -18,10 +17,12 @@ public class ApplicationUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String phone;
     private Boolean enabled;

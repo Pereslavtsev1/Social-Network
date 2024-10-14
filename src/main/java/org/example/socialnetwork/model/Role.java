@@ -1,9 +1,7 @@
-package org.example.socialnetwork.models;
+package org.example.socialnetwork.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "roles")
@@ -17,6 +15,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private Long id;
+    @Column(unique = true)
     private String authority;
 
 }
