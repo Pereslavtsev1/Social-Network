@@ -1,1 +1,16 @@
-spring.application.name=Social-Network
+spring:
+  application:
+    name: Social-Network
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: root
+    password: root
+  flyway:
+    baseline-on-migrate: on
+    url: "${spring.datasource.url}"
+    password: "${spring.datasource.password}"
+    user: "${spring.datasource.username}"
+    baseline-version: 1
+  jpa:
+    hibernate:
+      ddl-auto: validate
