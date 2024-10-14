@@ -3,6 +3,8 @@ package org.example.socialnetwork.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,6 +27,7 @@ public class ApplicationUser {
     @Column(unique = true)
     private String email;
     private String phone;
+    private Date dateOfBirth;
     private Boolean enabled;
     private Integer verificationCode;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -33,5 +36,5 @@ public class ApplicationUser {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> authority;
+    private Set<Role> authority = new HashSet<>();
 }

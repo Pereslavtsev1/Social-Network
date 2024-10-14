@@ -11,6 +11,7 @@ CREATE TABLE users
     password          VARCHAR(255),
     first_name        VARCHAR(255),
     last_name         VARCHAR(255),
+    date_of_birth     DATE,
     email             VARCHAR(255) UNIQUE,
     phone             VARCHAR(255),
     enabled           BOOLEAN,
