@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:secret.yml
   application:
     name: Social-Network
   datasource:
@@ -14,3 +16,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    open-in-view: false
