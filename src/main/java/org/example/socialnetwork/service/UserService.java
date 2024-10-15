@@ -4,11 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.socialnetwork.dtos.ApplicationUserRequest;
 import org.example.socialnetwork.dtos.ApplicationUserResponse;
+import org.example.socialnetwork.dtos.UpdatePhoneNumberRequest;
 import org.example.socialnetwork.exception.EmailAlreadyExistException;
 import org.example.socialnetwork.mapper.UserMapper;
 import org.example.socialnetwork.model.ApplicationUser;
 import org.example.socialnetwork.repository.RoleRepository;
 import org.example.socialnetwork.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +21,7 @@ public class UserService {
     private final UserMapper userMapper;
     private static final String USER_ROLE = "USER";
 
-    public ApplicationUserResponse registerUser(@Valid ApplicationUserRequest applicationUserRequest) throws EmailAlreadyExistException {
+    public ApplicationUserResponse registerUser(ApplicationUserRequest applicationUserRequest) throws EmailAlreadyExistException {
         var applicationUser = userMapper.toApplicationUser(applicationUserRequest);
         if (userRepository.findByEmail(applicationUser.getEmail()).isPresent()) {
             throw new EmailAlreadyExistException(applicationUser.getEmail());
@@ -38,5 +40,13 @@ public class UserService {
 
     private String generateRandomUsername(ApplicationUser applicationUser) {
         return "@" + applicationUser.getLastName() + (long) Math.floor(Math.random() * 100_000_000);
+    }
+
+    public ApplicationUserResponse updatePhoneNumber(@Valid UpdatePhoneNumberRequest phoneNumberRequest) {
+        ApplicationUser applicationUser = userRepository.findByUsername(phoneNumberRequest.username()).orElseThrow(
+                () -> new UsernameNotFoundException(phoneNumberRequest.username())
+        );
+        applicationUser.setPhone(phoneNumberRequest.phone());
+        return userMapper.toApplicationUserResponse(userRepository.save(applicationUser));
     }
 }
