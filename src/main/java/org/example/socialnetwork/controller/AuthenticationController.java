@@ -2,9 +2,7 @@ package org.example.socialnetwork.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.socialnetwork.dtos.ApplicationUserRequest;
-import org.example.socialnetwork.dtos.ApplicationUserResponse;
-import org.example.socialnetwork.dtos.UpdatePhoneNumberRequest;
+import org.example.socialnetwork.dtos.*;
 import org.example.socialnetwork.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +24,17 @@ public class AuthenticationController {
     @PutMapping("/update/phone")
     public ResponseEntity<ApplicationUserResponse> updatePhoneNumber(@Valid @RequestBody UpdatePhoneNumberRequest phoneNumberRequest) {
         return ResponseEntity.ok(userService.updatePhoneNumber(phoneNumberRequest));
+    }
+
+    @PostMapping("/email/code")
+    public ResponseEntity<String> sendEmailVerificationCode(@Valid @RequestBody EmailRequest emailRequest) {
+        userService.sendEmailVerificationCode(emailRequest);
+        return ResponseEntity.ok("Email verification code sent");
+    }
+
+    @PostMapping("/email/verify")
+    public ResponseEntity<String> verifyEmail(@RequestBody EmailVerifyRequest emailVerifyRequest) {
+        userService.verifyEmail(emailVerifyRequest);
+        return ResponseEntity.ok("Email verification code received");
     }
 }

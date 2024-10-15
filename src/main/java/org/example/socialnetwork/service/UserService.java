@@ -1,11 +1,9 @@
 package org.example.socialnetwork.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.socialnetwork.dtos.ApplicationUserRequest;
-import org.example.socialnetwork.dtos.ApplicationUserResponse;
-import org.example.socialnetwork.dtos.UpdatePhoneNumberRequest;
+import org.example.socialnetwork.dtos.*;
 import org.example.socialnetwork.exception.EmailAlreadyExistException;
+import org.example.socialnetwork.exception.IncorrectEmailVerificationCode;
 import org.example.socialnetwork.mapper.UserMapper;
 import org.example.socialnetwork.model.ApplicationUser;
 import org.example.socialnetwork.repository.RoleRepository;
@@ -18,8 +16,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final MailService mailService;
     private final UserMapper userMapper;
     private static final String USER_ROLE = "USER";
+    private static final String EMAIL_SUBJECT = "Your verification code";
+    private static final String EMAIL_BODY = "Your verification code: ";
 
     public ApplicationUserResponse registerUser(ApplicationUserRequest applicationUserRequest) throws EmailAlreadyExistException {
         var applicationUser = userMapper.toApplicationUser(applicationUserRequest);
@@ -42,11 +43,36 @@ public class UserService {
         return "@" + applicationUser.getLastName() + (long) Math.floor(Math.random() * 100_000_000);
     }
 
-    public ApplicationUserResponse updatePhoneNumber(@Valid UpdatePhoneNumberRequest phoneNumberRequest) {
-        ApplicationUser applicationUser = userRepository.findByUsername(phoneNumberRequest.username()).orElseThrow(
-                () -> new UsernameNotFoundException(phoneNumberRequest.username())
-        );
+    public ApplicationUserResponse updatePhoneNumber(UpdatePhoneNumberRequest phoneNumberRequest) {
+        ApplicationUser applicationUser = findUserByUsername(phoneNumberRequest.username());
         applicationUser.setPhone(phoneNumberRequest.phone());
         return userMapper.toApplicationUserResponse(userRepository.save(applicationUser));
+    }
+
+    public void sendEmailVerificationCode(EmailRequest emailRequest) {
+        ApplicationUser applicationUser = findUserByUsername(emailRequest.username());
+        applicationUser.setVerificationCode(generateVerificationCode());
+        userRepository.save(applicationUser);
+        mailService.sendEmail(applicationUser.getEmail(), EMAIL_SUBJECT, EMAIL_BODY + applicationUser.getVerificationCode());
+    }
+
+    private int generateVerificationCode() {
+        return (int) (Math.random() * 100_000_000);
+    }
+
+    public void verifyEmail(EmailVerifyRequest emailVerifyRequest) {
+        ApplicationUser applicationUser = findUserByUsername(emailVerifyRequest.username());
+        if (applicationUser.getVerificationCode().equals(emailVerifyRequest.verificationCode())) {
+            applicationUser.setEnabled(true);
+            applicationUser.setVerificationCode(null);
+            userRepository.save(applicationUser);
+        } else {
+            throw new IncorrectEmailVerificationCode();
+        }
+
+    }
+
+    private ApplicationUser findUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }
