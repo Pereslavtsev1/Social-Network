@@ -15,7 +15,7 @@ export default function Example() {
         <ResizablePanel defaultSize={25} maxSize={30} minSize={20}>
           <Sidebar></Sidebar>
         </ResizablePanel>
-        <ResizableHandle withHandle />
+        <ResizableHandle />
         <ResizablePanel defaultSize={75}>
           <div className="flex h-full items-center justify-center p-6">
             <span className="font-semibold">Content</span>
