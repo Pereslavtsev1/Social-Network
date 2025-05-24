@@ -1,10 +1,7 @@
-"use client";
-
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 
 export default function EmailVerificationPage() {
   return (
@@ -33,11 +30,7 @@ export default function EmailVerificationPage() {
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={status === "loading"}
-          >
+          <Button type="submit" className="w-full">
             Verify
           </Button>
         </div>
@@ -46,7 +39,6 @@ export default function EmailVerificationPage() {
           Didn&apos;t receive the code?{" "}
           <button
             type="button"
-            disabled={status === "loading"}
             className="text-primary underline underline-offset-4 hover:text-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Resend Code

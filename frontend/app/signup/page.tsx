@@ -16,6 +16,12 @@ export default function Signup() {
             </p>
           </div>
           <div className="grid gap-2">
+            <Label htmlFor="confirm-password" className="font-semibold">
+              Username
+            </Label>
+            <Input id="username" type="text" variant="custom" required />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="email" className="font-semibold">
               Email
             </Label>
@@ -32,17 +38,6 @@ export default function Signup() {
               Password
             </Label>
             <Input id="password" type="password" variant="custom" required />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="confirm-password" className="font-semibold">
-              Confirm Password
-            </Label>
-            <Input
-              id="confirm-password"
-              type="password"
-              variant="custom"
-              required
-            />
           </div>
           <Button type="submit" className="w-full">
             Sign up
