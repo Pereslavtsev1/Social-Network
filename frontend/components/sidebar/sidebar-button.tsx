@@ -17,9 +17,13 @@ const SidebarButton = ({ chat }: { chat: Chat }) => {
           <AvatarFallback>{chat.name.charAt(0)}</AvatarFallback>
         </Avatar>
 
-        <div className="flex items-start flex-col gap-1">
+        <div className="flex flex-col items-start gap-1">
           <h1 className="font-bold">{chat.name}</h1>
-          <p className="text-sm text-muted-foreground">{chat.lastMessage}</p>
+          <p className="text-sm text-muted-foreground">
+            {chat.lastMessage.length < 20
+              ? chat.lastMessage
+              : chat.lastMessage.slice(0, 20) + "..."}
+          </p>
         </div>
       </div>
 

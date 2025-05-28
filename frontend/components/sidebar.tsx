@@ -8,7 +8,8 @@ const Sidebar = () => {
       id: 1,
       name: "Alice Johnson",
       avatar: "/placeholder.svg?height=40&width=40",
-      lastMessage: "Hey! How are you doing?",
+      lastMessage:
+        "Hey! How are you doing? Hey! How are you doing? Hey! How are you doing?",
       timestamp: "2:30 PM",
       unread: 3,
       online: true,
@@ -18,8 +19,8 @@ const Sidebar = () => {
   return (
     <aside className="px-2">
       <SidebarHeader></SidebarHeader>
-      <main>
-        <div className="flex w-full flex-col gap-1 px-2">
+      <main className="pt-2">
+        <div className="flex w-full flex-col gap-1">
           {chats.map((chat) => (
             <SidebarButton chat={chat} key={chat.id} />
           ))}

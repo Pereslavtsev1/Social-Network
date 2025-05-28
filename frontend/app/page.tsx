@@ -12,11 +12,11 @@ export default function Example() {
         direction="horizontal"
         className="min-h-[200px] rounded-lg border md:min-w-[450px]"
       >
-        <ResizablePanel defaultSize={25} maxSize={30} minSize={20}>
+        <ResizablePanel defaultSize={24} maxSize={28} minSize={20}>
           <Sidebar></Sidebar>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={75}>
+        <ResizablePanel defaultSize={75} className="hidden md:flex">
           <div className="flex h-full items-center justify-center p-6">
             <span className="font-semibold">Content</span>
           </div>
